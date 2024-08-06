@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const RegistrationToken = require('../models/RegistrationToken');
 const Admin = require('../models/admin');
 
-exports.forgotPassword = async (req, res) => {
+exports.ForgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {

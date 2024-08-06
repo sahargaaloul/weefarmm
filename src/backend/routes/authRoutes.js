@@ -1,9 +1,9 @@
 const express = require('express');
-const { forgotPassword, verifyCode, resetPassword , login, sendRegistrationEmailController , handleSignUp} = require('../controllers/authController');
+const { ForgotPassword, verifyCode, resetPassword , login, sendRegistrationEmailController , handleSignUp} = require('../controllers/authController');
 
 const router = express.Router();
 
-router.post('/forgot-password', forgotPassword);
+router.post('/forgot-password', ForgotPassword);
 router.post('/verify-code', verifyCode);
 router.post('/reset-password', resetPassword);
 router.post('/login', login);

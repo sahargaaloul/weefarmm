@@ -9,7 +9,7 @@ import EnterCode from "views/auth/entercode";
 import ResetPassword from "views/auth/resetpassword"; 
 import SignUp from "views/auth/signup";
 import SendRegistrationEmail from 'views/auth/SendRegistrationEmail';
-
+import Welcome from "views/auth/welcome";
 
 const App = () => {
   return (
@@ -23,6 +23,9 @@ const App = () => {
       <Route path="/sign-up/*" element={<SignUp />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/send-registration-email" element={<SendRegistrationEmail />} />
+      <Route path="/welcome" element={<Welcome />} />
+
+
     </Routes>
   );
 };

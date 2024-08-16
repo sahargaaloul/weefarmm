@@ -26,13 +26,10 @@ const ForgotPassword = () => {
       if (response.ok) {
         setSuccess('Code de vérification envoyé. Veuillez vérifier votre email.');
         localStorage.setItem('email', email); 
-        setTimeout(() => navigate('/enter-code'), 1000);
+        setTimeout(() => navigate('/enter-code', { state: { email } }), 1000);
       } else {
         setError(data.message || 'Erreur lors de l\'envoi du code de vérification.');
       }
-      setTimeout(() => {
-        navigate('/enter-code', { state: { email } }); 
-      }, 2000);
     } catch (error) {
       setError('Une erreur est survenue.');
       console.error('Erreur:', error);

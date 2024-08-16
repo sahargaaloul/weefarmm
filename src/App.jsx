@@ -10,6 +10,12 @@ import ResetPassword from "views/auth/resetpassword";
 import SignUp from "views/auth/signup";
 import SendRegistrationEmail from 'views/auth/SendRegistrationEmail';
 import Welcome from "views/auth/welcome";
+import Dashboard from "views/superadmin/dashboardsuper";
+import SignIn from "views/auth/adminsignin";
+import AddUserForm from './views/auth/AddUserForm';
+import AdminHistory from './views/superadmin/AdminHistory';
+
+
 
 const App = () => {
   return (
@@ -24,6 +30,10 @@ const App = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/send-registration-email" element={<SendRegistrationEmail />} />
       <Route path="/welcome" element={<Welcome />} />
+      <Route path="/dashboard/*" element={<Dashboard />} />
+      <Route path="/admin-sign-in" element={<SignIn />} />
+      <Route path="/add-user" element={<AddUserForm />} />
+      <Route path="/history" element={<AdminHistory />} />
 
 
     </Routes>

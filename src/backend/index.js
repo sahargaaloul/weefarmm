@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const superadminRouter = require('./routes/superadmin');
 const authRouter = require('./routes/authRoutes');
 const passwordResetRoute = require('./routes/resetpassword');
-
+const adminRoutes = require('./routes/adminRoutes');
+const adminHistoryRoutes = require('./routes/adminHistoryRoutes');
 
 const app = express();
 
@@ -23,11 +24,14 @@ app.use(session({
   secret: '1234',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Devrait être mis à true en production avec HTTPS
+  cookie: { secure: false } 
 }));
 app.use('/superadmin', superadminRouter);
 app.use('/api', authRouter);
 app.use('/reset-password', passwordResetRoute);
+app.use('/admin', adminRoutes);
+app.use('/history', adminHistoryRoutes);
+
 
 app.options('*', cors());
 

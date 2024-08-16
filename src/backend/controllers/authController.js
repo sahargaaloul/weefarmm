@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const RegistrationToken = require('../models/RegistrationToken');
 const Admin = require('../models/admin');
+const AdminHistory = require('../models/AdminHistory'); 
 
 exports.ForgotPassword = async (req, res) => {
   const { email } = req.body;
@@ -143,9 +144,23 @@ exports.sendRegistrationEmailController = async (req, res) => {
     // Enregistrez le jeton dans la base de données avec une durée d'expiration
     await RegistrationToken.create({ email, token, expiresAt: new Date(Date.now() + 3600000) }); // 1 heure d'expiration
 
+    // Envoyer l'email d'inscription
     await sendRegistrationEmail(email, registrationLink);
+
+    // Enregistrer l'action dans la table adminhistory
+    await AdminHistory.create({
+      adminEmail: email,
+      action: 'registration_email_sent',
+      details: {
+        emailAdded: email,
+        registrationLink,
+        token
+      }
+    });
+
     res.status(200).json({ message: 'Email d\'inscription envoyé avec succès' });
   } catch (error) {
+    console.error('Erreur lors de l\'envoi de l\'email d\'inscription:', error); // Log dans la console
     res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email d\'inscription', error });
   }
 };

@@ -30,8 +30,9 @@ export default function SignUp() {
       });
 
       console.log(response.data);
+      localStorage.setItem('userEmail', email); 
       alert("Account created successfully!");
-      navigate('/sign-in');
+      navigate('/add-user');
     } catch (err) {
       console.error(err);
       alert("Account creation failed. Please try again.");

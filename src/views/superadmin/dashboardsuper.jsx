@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import routes from 'routes'; 
 import styled from '@emotion/styled';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBox, faHistory, faCog, faHomeAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 // Styled components
 const Sidebar = styled.div`
@@ -44,8 +46,8 @@ const MenuLink = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: #adb5bd;
-  font-size: 18px;
-  margin: 15px 0;
+  font-size: 22px;
+  margin: 18px 0;
   
   &:hover {
     color: #fff;
@@ -265,17 +267,18 @@ const DashboardSuper = () => {
   return (
     <div style={{ display: 'flex' }}>
       <Sidebar>
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
-          {routes.map((route, index) => (
-            <li key={index}>
-              <MenuLink to={`${route.layout}/${route.path}`}>
-                {route.icon}
-                <span style={{ marginLeft: '10px' }}>{route.name}</span>
-              </MenuLink>
-            </li>
-            
-          ))}
-        </ul>
+        <MenuLink to="/dashboard/*">
+          <FontAwesomeIcon icon={faHomeAlt} /> Dashboard
+        </MenuLink>
+        <MenuLink to="/productDetail">
+          <FontAwesomeIcon icon={faBox} /> Produits
+        </MenuLink>
+        <MenuLink to="/history">
+          <FontAwesomeIcon icon={faHistory} /> Historique
+        </MenuLink>
+        <MenuLink to="/settings">
+          <FontAwesomeIcon icon={faCog} /> Paramètres
+        </MenuLink>
       </Sidebar>
 
       <Content>

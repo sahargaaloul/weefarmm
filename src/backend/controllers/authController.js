@@ -109,30 +109,54 @@ exports.resetPassword = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password, rememberMe } = req.body;
   try {
-      const user = await Superadmin.findOne({ where: { email } });
-      if (user) {
-          const isPasswordValid = password === user.password;
-          if (isPasswordValid) {
-              req.session.user = user;
-              if (rememberMe) {
-                  req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 jours
-                  console.log('Session cookie maxAge set for 30 days');
-              } else {
-                  req.session.cookie.expires = false; // Session expire à la fermeture du navigateur
-                  console.log('Session cookie expires set to false');
-              }
-              console.log('Session created:', req.session);
-              res.status(200).json({ message: 'Login successful', rememberMeActive: rememberMe });
-          } else {
-              res.status(401).json({ message: 'Invalid credentials' });
-          }
+    console.log('Request body:', req.body);
+
+    const user = await Superadmin.findOne({ where: { email } });
+    if (user) {
+      console.log('User found:', user);
+
+      const isPasswordValid = password === user.password;
+      if (isPasswordValid) {
+        // Créez la session pour l'utilisateur
+        req.session.user = user;
+        if (rememberMe) {
+          req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // 30 jours
+          console.log('Session cookie maxAge set for 30 days');
+        } else {
+          req.session.cookie.expires = false; // Session expire à la fermeture du navigateur
+          console.log('Session cookie expires set to false');
+        }
+        console.log('Session created:', req.session);
+
+        // Enregistrez l'action de connexion dans AdminHistory
+        try {
+          const historyEntry = await AdminHistory.create({
+            adminEmail: email,
+            action: 'login',
+            details: {
+              rememberMe
+            }
+          });
+          console.log('Login action recorded in AdminHistory:', historyEntry);
+        } catch (error) {
+          console.error('Error recording login action:', error);
+        }
+
+        res.status(200).json({ message: 'Login successful', rememberMeActive: rememberMe });
       } else {
-          res.status(401).json({ message: 'Invalid credentials' });
+        res.status(401).json({ message: 'Invalid credentials' });
       }
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
   } catch (error) {
-      res.status(500).json({ message: 'Server error', error });
+    console.error('Error:', error);
+    res.status(500).json({ message: 'Server error', error });
   }
 };
+
+
+
 
 exports.sendRegistrationEmailController = async (req, res) => {
   const { email } = req.body;

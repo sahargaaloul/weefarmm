@@ -1,6 +1,8 @@
-const Superadmin = require('../models/superadmin');
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/database');
+const Superadmin = require('../models/superadmin');
+const AdminHistory = require('../models/AdminHistory'); 
+
+const jwtSecret = '1234'; 
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -12,8 +14,24 @@ exports.login = async (req, res) => {
 
     const superadmin = await Superadmin.findOne({ where: { email } });
     console.log(superadmin);
+
     if (superadmin && superadmin.password === password) {
       const token = jwt.sign({ email: superadmin.email }, jwtSecret, { expiresIn: '1h' });
+      
+      // Enregistrez l'action de connexion dans AdminHistory
+      try {
+        const historyEntry = await AdminHistory.create({
+          adminEmail: email,
+          action: 'login',
+          details: {
+            token
+          }
+        });
+        console.log('Login action recorded in AdminHistory:', historyEntry);
+      } catch (error) {
+        console.error('Error recording login action:', error);
+      }
+
       res.json({ token });
     } else {
       res.status(401).json({ message: 'Email ou mot de passe incorrect' });

@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBox, faHistory, faCog, faHomeAlt } from '@fortawesome/free-solid-svg-icons';
 
-
 // Styled components
 const Sidebar = styled.div`
   width: 250px;
@@ -112,7 +111,7 @@ const ToggleLink = styled.a`
   }
 `;
 
-const AdminHistory = () => {
+const ProductHistory = () => {
   const [history, setHistory] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [expandedRows, setExpandedRows] = useState({}); // État pour suivre quelles lignes sont étendues
@@ -122,18 +121,18 @@ const AdminHistory = () => {
   }, []);
 
   const fetchHistory = () => {
-    axios.get("/history")
+    axios.get("/producthistory")
       .then(response => {
         console.log("Données reçues : ", response.data);
         setHistory(response.data);
       })
       .catch(error => {
-        console.error("Erreur lors de la récupération des données d'historique des admins !", error);
+        console.error("Erreur lors de la récupération des données d'historique des produits !", error);
       });
   };
 
-  const handleDelete = (adminEmail) => {
-    axios.delete(`/history/${adminEmail}`)
+  const handleDelete = (productId) => {
+    axios.delete(`/producthistory/${productId}`)
       .then(() => {
         fetchHistory(); // Re-fetch history after deletion
       })
@@ -143,7 +142,7 @@ const AdminHistory = () => {
   };
 
   const handleDeleteAll = () => {
-    axios.delete("/history")
+    axios.delete("/producthistory")
       .then(() => {
         setHistory([]); // Clear history after deletion
       })
@@ -153,7 +152,7 @@ const AdminHistory = () => {
   };
 
   const filteredHistory = history.filter(entry =>
-    entry.adminEmail.toLowerCase().includes(searchTerm.toLowerCase())
+    entry.productId.toString().includes(searchTerm)
   );
 
   const handleToggleDetails = (index) => {
@@ -166,13 +165,13 @@ const AdminHistory = () => {
   return (
     <div style={{ display: 'flex' }}>
       <Sidebar>
-        <MenuLink to="/dashboard/*">
+        <MenuLink to="/product">
           <FontAwesomeIcon icon={faHomeAlt} /> Dashboard
         </MenuLink>
         <MenuLink to="/productDetail">
           <FontAwesomeIcon icon={faBox} /> Produits
         </MenuLink>
-        <MenuLink to="/history">
+        <MenuLink to="/producthistory">
           <FontAwesomeIcon icon={faHistory} /> Historique
         </MenuLink>
         <MenuLink to="/settings">
@@ -184,7 +183,7 @@ const AdminHistory = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
           <input
             type="text"
-            placeholder="Search by admin email"
+            placeholder="Search by product ID"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{
@@ -202,7 +201,7 @@ const AdminHistory = () => {
         <HistoryTable>
           <thead>
             <tr>
-              <TableHeader>Admin Email</TableHeader>
+              <TableHeader>Product ID</TableHeader>
               <TableHeader>Action</TableHeader>
               <TableHeader>Timestamp</TableHeader>
               <TableHeader>Details</TableHeader>
@@ -212,7 +211,7 @@ const AdminHistory = () => {
           <tbody>
             {filteredHistory.map((entry, index) => (
               <TableRow key={index}>
-                <TableCell>{entry.adminEmail}</TableCell>
+                <TableCell>{entry.productId}</TableCell>
                 <TableCell>{entry.action}</TableCell>
                 <TableCell>{new Date(entry.timestamp).toLocaleString()}</TableCell>
                 <TableCell>
@@ -235,7 +234,7 @@ const AdminHistory = () => {
                   )}
                 </TableCell>
                 <TableCell>
-                  <DeleteButton onClick={() => handleDelete(entry.adminEmail)}>Delete</DeleteButton>
+                  <DeleteButton onClick={() => handleDelete(entry.productId)}>Delete</DeleteButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -246,4 +245,4 @@ const AdminHistory = () => {
   );
 };
 
-export default AdminHistory;
+export default ProductHistory;

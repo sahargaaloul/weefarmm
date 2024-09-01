@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const {sequelize} = require('../config/database'); // Vérifiez que le chemin est correct
 
 const AdminHistory = sequelize.define('AdminHistory', {
+  
     adminEmail: {
       type: DataTypes.STRING,
       allowNull: false,

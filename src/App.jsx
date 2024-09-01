@@ -14,7 +14,10 @@ import Dashboard from "views/superadmin/dashboardsuper";
 import SignIn from "views/auth/adminsignin";
 import AddUserForm from './views/auth/AddUserForm';
 import AdminHistory from './views/superadmin/AdminHistory';
-
+import ProductPage from './views/superadmin/ProductPage';
+import ProductDetail from "./views/superadmin/productlist";
+import ProductDetailPage from "./views/superadmin/productdetails";
+import ProductHistory from "./views/superadmin/ProductHistory";
 
 
 const App = () => {
@@ -34,6 +37,11 @@ const App = () => {
       <Route path="/admin-sign-in" element={<SignIn />} />
       <Route path="/add-user" element={<AddUserForm />} />
       <Route path="/history" element={<AdminHistory />} />
+      <Route path="/product" element={< ProductPage/>} />
+      <Route path="/productDetail" element={<ProductDetail/>} />
+      <Route path="/products/:id" element={<ProductDetailPage />} />
+      <Route path="/producthistory" element={<ProductHistory />} />
+
 
 
     </Routes>

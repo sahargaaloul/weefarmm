@@ -13,7 +13,7 @@ export default function SignIn() {
   useEffect(() => {
     const savedEmail = localStorage.getItem("email");
     const savedPassword = localStorage.getItem("password");
-    const savedRememberMe = localStorage.getItem("rememberMe") === "false";
+    const savedRememberMe = localStorage.getItem("rememberMe") === "true";
 
     if (savedEmail && savedPassword && savedRememberMe) {
       setEmail(savedEmail);
@@ -47,7 +47,7 @@ export default function SignIn() {
         localStorage.removeItem("password");
         localStorage.removeItem("rememberMe");
       }
-      navigate('/dashboard')
+      navigate('/dashboard');
 
     } catch (err) {
       console.error(err);
@@ -56,50 +56,56 @@ export default function SignIn() {
   };
 
   return (
-    <div className="mt-16 mb-16 flex h-full w-full items-center justify-center px-2 md:mx-0 md:px-0 lg:mb-10 lg:items-center lg:justify-start">
-      <div className="mt-[10vh] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
-        <h4 className="mb-2.5 text-4xl font-bold text-navy-700 dark:text-white">Sign In</h4>
-        <p className="mb-9 ml-1 text-base text-gray-600">Enter your email and password to sign in!</p>
-        <InputField
-          variant="auth"
-          extra="mb-3"
-          label="Email*"
-          placeholder="mail@simmmple.com"
-          id="email"
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <InputField
-          variant="auth"
-          extra="mb-3"
-          label="Password*"
-          placeholder="Min. 8 characters"
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="mb-4 flex items-center justify-between px-2">
-          <div className="flex items-center">
-            <Checkbox 
-              checked={rememberMe} 
-              onChange={(e) => setRememberMe(e.target.checked)} 
-            />
-            <p className="ml-2 text-sm font-medium text-navy-700 dark:text-white">Keep me logged In</p>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8">
+        <h4 className="text-3xl font-bold text-gray-900 mb-6">Sign In</h4>
+        <p className="text-gray-600 mb-6">Enter your email and password to sign in!</p>
+        <form onSubmit={handleLogin}>
+          <InputField
+            variant="auth"
+            extra="mb-4"
+            label="Email*"
+            placeholder="mail@simmmple.com"
+            id="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-gray-50 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          />
+          <InputField
+            variant="auth"
+            extra="mb-4"
+            label="Password*"
+            placeholder="Min. 8 characters"
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-gray-50 border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+          />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center">
+              <Checkbox 
+                checked={rememberMe} 
+                onChange={(e) => setRememberMe(e.target.checked)} 
+                className="h-4 w-4"
+              />
+              <p className="ml-2 text-sm text-gray-700">Keep me logged In</p>
+            </div>
+            <Link to="/forgot-password" className="text-sm text-blue-500 hover:text-blue-600">
+              Forgot Password?
+            </Link>
           </div>
-          <Link to="/forgot-password" className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white">
-            Forgot Password?
-          </Link>
-        </div>
-        <button
-          onClick={handleLogin}
-          className="linear mt-2 w-full rounded-xl bg-brand-500 py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-          Sign In
-        </button>
-        <div className="mt-4">
-          <span className="text-sm font-medium text-navy-700 dark:text-gray-600">Not registered yet?</span>
-          <Link to="/sign-up" className="ml-1 text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          >
+            Sign In
+          </button>
+        </form>
+        <div className="mt-6 text-center">
+          <span className="text-sm text-gray-700">Not registered yet?</span>
+          <Link to="/sign-up" className="text-sm text-blue-500 hover:text-blue-600 ml-1">
             Create an account
           </Link>
         </div>

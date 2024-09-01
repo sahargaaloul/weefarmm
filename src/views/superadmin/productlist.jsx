@@ -138,7 +138,7 @@ const DetailsButton = styled(Link)`
 
 const ProductDetail = () => {
   const [products, setProducts] = useState([]);
-  const [ setCategories] = useState([]);
+
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -159,16 +159,8 @@ const ProductDetail = () => {
     });
   }, [selectedCategory, searchTerm]);
 
-  useEffect(() => {
-    // Récupérer les catégories depuis le backend
-    axios.get('http://localhost:5000/produit/categories')
-      .then(response => {
-        setCategories(response.data);
-      })
-      .catch(error => {
-        console.error('Erreur lors de la récupération des catégories:', error);
-      });
-  }, []);
+  
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);

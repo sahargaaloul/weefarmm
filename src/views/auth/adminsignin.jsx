@@ -47,7 +47,7 @@ export default function AdminSignIn() {
           localStorage.removeItem("password");
           localStorage.removeItem("rememberMe");
         }
-        navigate(response.data.redirectUrl);
+        navigate('/product');
       }
     } catch (err) {
       console.error(err);

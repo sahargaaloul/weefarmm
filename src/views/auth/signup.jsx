@@ -104,7 +104,7 @@ export default function SignUp() {
             Already have an account?
           </span>
           <Link
-            to="/auth/sign-in"
+            to="/"
             className="ml-1 text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
           >
             Sign In

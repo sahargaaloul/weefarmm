@@ -17,8 +17,4 @@ router.put('/products/:id', upload.single('image'), productController.updateProd
 router.patch('/products/:id/status', productController.updateStatus);
 router.patch('/products/:id/visibility', productController.updateVisibility);
 
-
-// Route de recherche de produits
-router.get('/search', productController.searchProducts);
-
 module.exports = router;
